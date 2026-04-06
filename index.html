@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LASATER | Architecture</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@200;400&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #c5a47e; --bg: #000; --glass: rgba(255,255,255,0.05); }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: var(--bg); color: white; font-family: 'Inter', sans-serif; overflow: hidden; }
+        
+        /* Loader */
+        #launcher {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #000; z-index: 10000; display: flex;
+            align-items: center; justify-content: center; cursor: pointer;
+        }
+        #launcher span { letter-spacing: 12px; border: 1px solid #333; padding: 25px 50px; text-transform: uppercase; font-size: 11px; transition: 0.5s; }
+        #launcher:hover span { border-color: var(--gold); color: var(--gold); }
+
+        /* Video Background */
+        .video-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+        video { width: 100%; height: 100%; object-fit: cover; opacity: 0.4; }
+        .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, transparent 20%, #000 150%); }
+
+        /* Nav */
+        header {
+            position: fixed; top: 0; width: 100%; padding: 40px 60px;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 2000; box-sizing: border-box; opacity: 0;
+        }
+        .logo { font-family: 'Cormorant Garamond', serif; font-size: 24px; letter-spacing: 8px; text-transform: uppercase; text-decoration: none; color: white; }
+        .nav-links { display: flex; gap: 40px; list-style: none; margin: 0; padding: 0; }
+        .nav-links a { color: white; text-decoration: none; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; opacity: 0.6; transition: 0.4s; }
+        .nav-links a:hover { opacity: 1; color: var(--gold); }
+
+        /* --- THE CENTERED HERO SECTION --- */
+        .main-content {
+            position: relative; z-index: 10;
+            height: 100vh; width: 100%;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 5vh; 
+        }
+
+        .title-box { position: relative; width: 100%; height: 200px; display: flex; justify-content: center; align-items: center; }
+        
+        h1 { font-family: 'Cormorant Garamond', serif; opacity: 0; position: absolute; margin: 0; text-align: center; width: 100%; }
+        .t1 { font-size: 7vw; letter-spacing: 25px; text-transform: uppercase; }
+        .t2 { font-size: 6vw; letter-spacing: 20px; text-transform: uppercase; }
+        .t3 { font-size: 6vw; letter-spacing: 20px; text-transform: uppercase; }
+
+        .sub-text { 
+            display: block; 
+            font-family: 'Inter', sans-serif; 
+            font-size: 12px; 
+            letter-spacing: 15px; 
+            margin-top: 20px; 
+            opacity: 0.5; 
+            font-weight: 200;
+        }
+
+        .char { display: inline-block; transform: translateY(60px); filter: blur(25px); opacity: 0; }
+
+        /* Equal Spaced Gallery */
+        .center-gallery {
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            gap: 40px; 
+            width: 90%;
+            max-width: 1300px;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .img-card {
+            flex: 1; 
+            aspect-ratio: 3/4.2; 
+            background: #111;
+            border: 1px solid rgba(255,255,255,0.1);
+            overflow: hidden;
+            position: relative;
+            transition: border 0.5s ease;
+        }
+        .img-card:hover { border-color: var(--gold); }
+        
+        .img-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: 1.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .img-card:hover img { opacity: 1; transform: scale(1.05); }
+        
+        .img-card span { 
+            position: absolute; bottom: 20px; left: 20px; 
+            font-size: 9px; letter-spacing: 4px; 
+            text-transform: uppercase; color: rgba(255,255,255,0.5); 
+        }
+
+        @media (max-width: 800px) {
+            .center-gallery { flex-direction: column; gap: 20px; padding-top: 100px; }
+            .img-card { width: 70%; aspect-ratio: 16/9; }
+            .t1 { font-size: 10vw; letter-spacing: 10px; }
+            .sub-text { font-size: 8px; letter-spacing: 8px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="launcher" onclick="enterSite()">
+        <span>Enter Experience</span>
+    </div>
+
+    <header id="mainNav">
+        <a href="index.html" class="logo">LASATER.</a>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about us.html">About Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="video-container">
+        <video id="vid" muted playsinline><source src="video2.mp4" type="video/mp4"></video>
+        <div class="overlay"></div>
+    </div>
+
+    <div class="main-content">
+        <div class="title-box">
+            <h1 class="t1">Architecture<br><span class="sub-text">Below the Stars</span></h1>
+            <h1 class="t2">Modern Living</h1>
+            <h1 class="t3">Anders Lasater</h1>
+        </div>
+
+        <div class="center-gallery" id="centerGallery">
+            <div class="img-card"><img src="a13.webp"><span>Feature 13</span></div>
+            <div class="img-card"><img src="a12.webp"><span>Feature 12</span></div>
+            <div class="img-card"><img src="a9.webp"><span>Feature 09</span></div>
+        </div>
+    </div>
+
+    <script>
+        function enterSite() {
+            document.getElementById('vid').play();
+            gsap.to("#launcher", { opacity: 0, duration: 1, onComplete: () => {
+                document.getElementById('launcher').style.display = 'none';
+                startAnims();
+            }});
+        }
+
+        function split(query) {
+            const el = document.querySelector(query);
+            const sub = el.querySelector('.sub-text');
+            let mainText = sub ? el.innerHTML.split('<br>')[0] : el.innerText;
+            
+            let newHTML = mainText.split("").map(c => `<span class="char">${c === " " ? "&nbsp;" : c}</span>`).join("");
+            
+            if (sub) {
+                newHTML += `<br><span class="sub-text">${sub.innerText.split("").map(c => `<span class="char">${c === " " ? "&nbsp;" : c}</span>`).join("")}</span>`;
+            }
+            el.innerHTML = newHTML;
+        }
+
+        function startAnims() {
+            [".t1", ".t2", ".t3"].forEach(split);
+            const tl = gsap.timeline();
+
+            tl.to("#mainNav", { opacity: 1, duration: 1 });
+
+            [".t1", ".t2", ".t3"].forEach((t, i) => {
+                const chars = t + " .char";
+                tl.set(t, { opacity: 1 })
+                  .to(chars, { opacity: 1, y: 0, filter: "blur(0px)", stagger: 0.04, duration: 1.2, ease: "power3.out" });
+                
+                if (i < 2) {
+                    tl.to(chars, { opacity: 0, y: -40, filter: "blur(20px)", stagger: 0.02, duration: 1, delay: 1.8 }).set(t, { opacity: 0 });
+                } else {
+                    tl.to("#centerGallery", { opacity: 1, y: 0, duration: 1.5, ease: "expo.out" }, "-=0.5");
+                }
+            });
+        }
+    </script>
+</body>
+</html>

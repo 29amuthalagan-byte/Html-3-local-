@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABOUT US | LASATER</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@100;200;300;400&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #c5a47e; --white: #ffffff; --bg: #050505; --glass: rgba(0, 0, 0, 0.8); }
+        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: var(--bg); color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+        /* Immersive Background */
+        .main-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2500'); 
+            background-size: cover; background-position: center;
+            z-index: 1; filter: brightness(0.35);
+        }
+
+        /* Navigation */
+        header {
+            position: fixed; top: 0; width: 100%; padding: 40px 60px;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 2000; box-sizing: border-box;
+        }
+        .logo { font-family: 'Cormorant Garamond', serif; font-size: 24px; letter-spacing: 8px; text-transform: uppercase; text-decoration: none; color: white; }
+        .nav-links { display: flex; gap: 40px; list-style: none; margin: 0; padding: 0; }
+        .nav-links a { color: white; text-decoration: none; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; opacity: 0.6; transition: 0.4s; }
+        .nav-links a:hover, .active { opacity: 1; color: var(--gold); }
+
+        /* Centered Content Container */
+        .about-wrapper {
+            position: relative; z-index: 10;
+            display: flex; align-items: center; justify-content: center;
+            min-height: 100vh; padding: 140px 20px; box-sizing: border-box;
+        }
+
+        .glass-manifesto {
+            width: 90%; max-width: 950px;
+            background: var(--glass);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 100px 80px; text-align: center;
+            opacity: 0; transform: translateY(40px);
+        }
+
+        .tagline {
+            font-size: 9px; text-transform: uppercase; letter-spacing: 12px;
+            color: var(--gold); margin-bottom: 40px; display: block;
+        }
+
+        .glass-manifesto h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(32px, 5vw, 60px); font-weight: 300; margin: 0 0 40px 0;
+            letter-spacing: 10px; color: var(--white); text-transform: uppercase;
+        }
+
+        .content-body {
+            max-width: 750px; margin: 0 auto;
+        }
+
+        .content-p {
+            font-size: 15px; line-height: 2.4; font-weight: 200;
+            color: rgba(255,255,255,0.7); margin-bottom: 40px;
+            letter-spacing: 0.8px; text-align: justify;
+            text-justify: inter-word;
+        }
+
+        .signature-block {
+            margin-top: 60px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 40px;
+        }
+
+        .signature {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px; font-style: italic; color: var(--gold);
+            margin-bottom: 5px;
+        }
+
+        .title-sub {
+            font-size: 9px; text-transform: uppercase; letter-spacing: 4px;
+            color: rgba(255,255,255,0.4);
+        }
+
+        /* Mobile Optimization */
+        @media (max-width: 768px) {
+            .glass-manifesto { padding: 60px 30px; }
+            .content-p { text-align: center; font-size: 14px; }
+            header { padding: 20px 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-bg"></div>
+
+    <header>
+        <a href="index.html" class="logo">LASATER.</a>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="projects.html">Projects</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="about us.html" class="active">About Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="about-wrapper">
+        <div class="glass-manifesto" id="manifesto">
+            <span class="tagline">The Studio & Philosophy</span>
+            <h1>Anders Lasater</h1>
+            
+            <div class="content-body">
+                <p class="content-p">
+                    Architecture is the silent dialogue between light, space, and the human spirit. Established in 2005, our studio was founded on the radical belief that modern design should not be cold or detached, but rather a warm, tactile extension of the landscape it inhabits. We don't just build structures; we curate environments that respond to the rhythm of the sun and the specific needs of those who dwell within them.
+                </p>
+                <p class="content-p">
+                    Our process is deeply rooted in the concept of "Essentialism"—stripping away the superfluous to reveal the raw beauty of form and function. By utilizing a palette of honest materials like natural stone, raw timber, and expansive glass, we create a seamless transition between the internal sanctuary and the external world. Every project is a bespoke journey, tailored to harmonize with the unique topography and heritage of its location.
+                </p>
+                <p class="content-p">
+                    Sustainability is not an afterthought in our practice; it is the foundation. Through intelligent site orientation, passive cooling strategies, and a meticulous attention to detail, we ensure that our buildings remain as enduring as the cliffs and coastlines they stand upon. We invite you to explore a world where modern innovation meets timeless elegance, designed for the modern soul.
+                </p>
+            </div>
+
+            <div class="signature-block">
+                <div class="signature">Anders Lasater, AIA</div>
+                <div class="title-sub">Principal Architect & Founder</div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        window.onload = () => {
+            gsap.to("#manifesto", {
+                opacity: 1,
+                y: 0,
+                duration: 2,
+                ease: "power4.out"
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROJECTS | LASATER</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@100;200;400&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #c5a47e; --bg: #050505; --line: rgba(255,255,255,0.08); }
+        body, html { margin: 0; padding: 0; background: var(--bg); color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; cursor: none; }
+
+        /* Custom Cursor */
+        #cursor { position: fixed; width: 8px; height: 8px; background: var(--gold); border-radius: 50%; pointer-events: none; z-index: 9999; }
+        #cursor-follower { 
+            position: fixed; width: 80px; height: 80px; border: 1px solid var(--gold); border-radius: 50%; 
+            pointer-events: none; z-index: 9998; display: flex; align-items: center; justify-content: center;
+            font-size: 8px; color: var(--gold); text-transform: uppercase; letter-spacing: 2px; opacity: 0; transform: scale(0.5);
+        }
+
+        /* Nav & Background */
+        .video-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
+        video { width: 100%; height: 100%; object-fit: cover; opacity: 0.15; }
+        header { position: fixed; top: 0; width: 100%; padding: 40px 60px; display: flex; justify-content: space-between; align-items: center; z-index: 2000; }
+        .logo { font-family: 'Cormorant Garamond', serif; font-size: 24px; letter-spacing: 8px; text-transform: uppercase; text-decoration: none; color: white; }
+        .nav-links { display: flex; gap: 40px; list-style: none; }
+        .nav-links a { color: white; text-decoration: none; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; opacity: 0.6; }
+
+        .archive-header { position: relative; z-index: 10; padding: 200px 60px 40px; }
+        .archive-header h1 { font-family: 'Cormorant Garamond', serif; font-size: 8vw; font-weight: 300; letter-spacing: 15px; margin: 0; text-transform: uppercase; }
+        
+        .filter-bar { position: relative; z-index: 10; padding: 0 60px 80px; display: flex; gap: 40px; }
+        .filter-btn { 
+            background: none; border: none; color: rgba(255,255,255,0.3); font-size: 10px; 
+            letter-spacing: 4px; text-transform: uppercase; cursor: pointer; transition: 0.4s; padding-bottom: 5px;
+            border-bottom: 1px solid transparent;
+        }
+        .filter-btn.active { color: var(--gold); border-bottom: 1px solid var(--gold); }
+
+        .project-grid { 
+            position: relative; z-index: 10; display: grid; 
+            grid-template-columns: repeat(2, 1fr); gap: 100px 60px; 
+            padding: 0 60px 150px; min-height: 100vh;
+        }
+
+        /* Initial state for animation */
+        .project-card { position: relative; width: 100%; display: block; opacity: 0; transform: translateY(50px); }
+        .project-card.hidden { display: none; }
+
+        .img-container { 
+            width: 100%; aspect-ratio: 16/10; overflow: hidden; 
+            background: #111; border: 1px solid var(--line); position: relative; 
+        }
+        .img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.5s cubic-bezier(0.19, 1, 0.22, 1); filter: grayscale(20%); }
+        .project-card:hover img { transform: scale(1.08); filter: grayscale(0%); }
+        
+        .project-meta { margin-top: 25px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .project-meta h2 { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; margin: 0; letter-spacing: 2px; }
+        .project-meta span { font-size: 9px; text-transform: uppercase; letter-spacing: 3px; color: var(--gold); }
+
+        @media (max-width: 900px) { .project-grid { grid-template-columns: 1fr; } body { cursor: auto; } #cursor, #cursor-follower { display: none; } }
+    </style>
+</head>
+<body>
+
+    <div id="cursor"></div>
+    <div id="cursor-follower">View</div>
+
+    <div class="video-container">
+        <video autoplay loop muted playsinline><source src="video.mp4" type="video/mp4"></video>
+    </div>
+
+    <header>
+        <a href="index.html" class="logo">LASATER.</a>
+        <nav><ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="projects.html" style="color:var(--gold); opacity:1;">Projects</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="about us.html">About Us</a></li>
+        </ul></nav>
+    </header>
+
+    <main>
+        <section class="archive-header">
+            <h1 id="mainTitle">Archive</h1>
+        </section>
+
+        <div class="filter-bar">
+            <button class="filter-btn active" onclick="filterProjects('all', this)">All Works</button>
+            <button class="filter-btn" onclick="filterProjects('residential', this)">Residential</button>
+            <button class="filter-btn" onclick="filterProjects('commercial', this)">Commercial</button>
+        </div>
+
+        <div class="project-grid" id="grid"></div>
+    </main>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        const projectData = [
+            { id: 9, name: "Vista Residence", cat: "residential" }, 
+            { id: 10, name: "Plaza One", cat: "commercial" },      
+            { id: 3, name: "Desert Villa", cat: "residential" },
+            { id: 4, name: "Glass Office", cat: "commercial" },
+            { id: 5, name: "Canyon House", cat: "residential" },
+            { id: 6, name: "The Pavilion", cat: "commercial" },
+            { id: 7, name: "Stone Creek", cat: "residential" },
+            { id: 8, name: "Nexus Hub", cat: "commercial" },
+            { id: 1, name: "Ocean Front", cat: "residential" },    
+            { id: 2, name: "Steel Tower", cat: "commercial" },     
+            { id: 11, name: "Modern Barn", cat: "residential" },
+            { id: 12, name: "Edge Suites", cat: "commercial" },
+            { id: 15, name: "Oak House", cat: "residential" },
+            { id: 16, name: "Core Labs", cat: "commercial" },
+            { id: 17, name: "Dune View", cat: "residential" },     
+            { id: 18, name: "Urban HQ", cat: "commercial" },        
+            { id: 14, name: "Sky Garden", cat: "commercial" },  
+            { id: 13, name: "Pine Retreat", cat: "residential" }      
+        ];
+
+        const grid = document.getElementById('grid');
+
+        function initGrid() {
+            projectData.forEach((proj, index) => {
+                const card = document.createElement('div');
+                card.className = `project-card ${proj.cat}`;
+                card.setAttribute('data-category', proj.cat);
+                card.innerHTML = `
+                    <div class="img-container">
+                        <img src="a${proj.id}.webp" alt="${proj.name}">
+                    </div>
+                    <div class="project-meta">
+                        <h2>${proj.name}</h2>
+                        <span>${proj.cat}</span>
+                    </div>
+                `;
+                grid.appendChild(card);
+
+                // Reveal animation as user scrolls
+                gsap.to(card, {
+                    opacity: 1,
+                    y: 0,
+                    duration: 1.2,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: card,
+                        start: "top 90%", // Trigger when the top of the card is 90% down the screen
+                        toggleActions: "play none none none"
+                    }
+                });
+            });
+            attachHoverEffects();
+        }
+
+        function filterProjects(category, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            const allCards = document.querySelectorAll('.project-card');
+            
+            // Fade everything out first
+            gsap.to(allCards, {
+                opacity: 0,
+                y: 20,
+                duration: 0.4,
+                onComplete: () => {
+                    allCards.forEach(card => {
+                        if (category === 'all' || card.getAttribute('data-category') === category) {
+                            card.classList.remove('hidden');
+                        } else {
+                            card.classList.add('hidden');
+                        }
+                    });
+
+                    // One-by-one reveal of the newly filtered items
+                    const visibleCards = document.querySelectorAll('.project-card:not(.hidden)');
+                    gsap.to(visibleCards, {
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.8,
+                        stagger: 0.15,
+                        ease: "power2.out"
+                    });
+                    
+                    // Refresh ScrollTrigger so positions are recalculated
+                    ScrollTrigger.refresh();
+                }
+            });
+        }
+
+        function attachHoverEffects() {
+            document.querySelectorAll('.img-container').forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    gsap.to("#cursor-follower", { opacity: 1, scale: 1, duration: 0.3 });
+                    gsap.to("#cursor", { scale: 0, duration: 0.3 });
+                });
+                el.addEventListener('mouseleave', () => {
+                    gsap.to("#cursor-follower", { opacity: 0, scale: 0.5, duration: 0.3 });
+                    gsap.to("#cursor", { scale: 1, duration: 0.3 });
+                });
+            });
+        }
+
+        // Smooth cursor follow
+        document.addEventListener('mousemove', (e) => {
+            gsap.to("#cursor", { x: e.clientX, y: e.clientY, duration: 0 });
+            gsap.to("#cursor-follower", { x: e.clientX - 40, y: e.clientY - 40, duration: 0.15 });
+        });
+
+        window.onload = () => { initGrid(); };
+    </script>
+</body>
+</html>
