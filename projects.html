@@ -21,16 +21,25 @@
 
         /* Nav & Background */
         .video-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
-        video { width: 100%; height: 100%; object-fit: cover; opacity: 0.15; }
-        header { position: fixed; top: 0; width: 100%; padding: 40px 60px; display: flex; justify-content: space-between; align-items: center; z-index: 2000; }
+        video { width: 100%; height: 100%; object-fit: cover; opacity: 0; }
+        header { position: fixed; top: 0; width: 100%; padding: 40px 60px; display: flex; justify-content: space-between; align-items: center; z-index: 2000; opacity: 0; }
+        
         .logo { font-family: 'Cormorant Garamond', serif; font-size: 24px; letter-spacing: 8px; text-transform: uppercase; text-decoration: none; color: white; }
         .nav-links { display: flex; gap: 40px; list-style: none; }
         .nav-links a { color: white; text-decoration: none; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; opacity: 0.6; }
 
         .archive-header { position: relative; z-index: 10; padding: 200px 60px 40px; }
-        .archive-header h1 { font-family: 'Cormorant Garamond', serif; font-size: 8vw; font-weight: 300; letter-spacing: 15px; margin: 0; text-transform: uppercase; }
+        .archive-header h1 { 
+            font-family: 'Cormorant Garamond', serif; 
+            font-size: 8vw; 
+            font-weight: 300; 
+            letter-spacing: 15px; 
+            margin: 0; 
+            text-transform: uppercase;
+            visibility: hidden; 
+        }
         
-        .filter-bar { position: relative; z-index: 10; padding: 0 60px 80px; display: flex; gap: 40px; }
+        .filter-bar { position: relative; z-index: 10; padding: 0 60px 80px; display: flex; gap: 40px; opacity: 0; }
         .filter-btn { 
             background: none; border: none; color: rgba(255,255,255,0.3); font-size: 10px; 
             letter-spacing: 4px; text-transform: uppercase; cursor: pointer; transition: 0.4s; padding-bottom: 5px;
@@ -44,15 +53,14 @@
             padding: 0 60px 150px; min-height: 100vh;
         }
 
-        /* Initial state for animation */
-        .project-card { position: relative; width: 100%; display: block; opacity: 0; transform: translateY(50px); }
+        .project-card { position: relative; width: 100%; display: block; opacity: 0; transform: translateY(40px); text-decoration: none; color: inherit; }
         .project-card.hidden { display: none; }
 
         .img-container { 
             width: 100%; aspect-ratio: 16/10; overflow: hidden; 
             background: #111; border: 1px solid var(--line); position: relative; 
         }
-        .img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.5s cubic-bezier(0.19, 1, 0.22, 1); filter: grayscale(20%); }
+        .img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1); filter: grayscale(20%); }
         .project-card:hover img { transform: scale(1.08); filter: grayscale(0%); }
         
         .project-meta { margin-top: 25px; display: flex; justify-content: space-between; align-items: flex-end; }
@@ -68,10 +76,12 @@
     <div id="cursor-follower">View</div>
 
     <div class="video-container">
-        <video autoplay loop muted playsinline><source src="video.mp4" type="video/mp4"></video>
+        <video id="bgVideo" autoplay loop muted playsinline>
+            <source src="video.mp4" type="video/mp4">
+        </video>
     </div>
 
-    <header>
+    <header id="mainNav">
         <a href="index.html" class="logo">LASATER.</a>
         <nav><ul class="nav-links">
             <li><a href="index.html">Home</a></li>
@@ -86,13 +96,13 @@
             <h1 id="mainTitle">Archive</h1>
         </section>
 
-        <div class="filter-bar">
+        <div class="filter-bar" id="filterBar">
             <button class="filter-btn active" onclick="filterProjects('all', this)">All Works</button>
             <button class="filter-btn" onclick="filterProjects('residential', this)">Residential</button>
             <button class="filter-btn" onclick="filterProjects('commercial', this)">Commercial</button>
         </div>
 
-        <div class="project-grid" id="grid"></div>
+        <div id="grid" class="project-grid"></div>
     </main>
 
     <script>
@@ -120,10 +130,17 @@
         ];
 
         const grid = document.getElementById('grid');
+        const video = document.getElementById('bgVideo');
+
+        // Ensure video keeps playing if it's accidentally paused by the system
+        video.addEventListener('pause', () => {
+            video.play();
+        });
 
         function initGrid() {
-            projectData.forEach((proj, index) => {
-                const card = document.createElement('div');
+            projectData.forEach((proj) => {
+                const card = document.createElement('a');
+                card.href = `project-details.html?id=${proj.id}`;
                 card.className = `project-card ${proj.cat}`;
                 card.setAttribute('data-category', proj.cat);
                 card.innerHTML = `
@@ -136,34 +153,57 @@
                     </div>
                 `;
                 grid.appendChild(card);
-
-                // Reveal animation as user scrolls
-                gsap.to(card, {
-                    opacity: 1,
-                    y: 0,
-                    duration: 1.2,
-                    ease: "power3.out",
-                    scrollTrigger: {
-                        trigger: card,
-                        start: "top 90%", // Trigger when the top of the card is 90% down the screen
-                        toggleActions: "play none none none"
-                    }
-                });
             });
             attachHoverEffects();
+        }
+
+        function runEntranceAnimation() {
+            const tl = gsap.timeline();
+            const title = document.getElementById('mainTitle');
+            const text = title.textContent;
+            
+            title.innerHTML = ''; 
+            title.style.visibility = 'visible';
+            [...text].forEach(char => {
+                const span = document.createElement('span');
+                span.textContent = char === " " ? "\u00A0" : char; 
+                span.style.display = 'inline-block';
+                span.style.opacity = '0';
+                span.style.transform = 'translateY(8px)';
+                title.appendChild(span);
+            });
+
+            // Force play and fade in
+            video.play().catch(e => console.log("Auto-play prevented, waiting for interaction"));
+
+            tl.to("#bgVideo", { opacity: 0.15, duration: 1.2, ease: "power2.out" })
+              .to("#mainNav", { opacity: 1, duration: 0.6 }, "-=0.6")
+              .to("#mainTitle span", { 
+                  opacity: 1, 
+                  y: 0, 
+                  duration: 0.6, 
+                  stagger: 0.04, 
+                  ease: "power2.out" 
+              }, "-=0.4")
+              .to("#filterBar", { opacity: 1, duration: 0.6 }, "-=0.3")
+              .to(".project-card", {
+                  opacity: 1,
+                  y: 0,
+                  duration: 0.8,
+                  stagger: 0.06, 
+                  ease: "power2.out"
+              }, "-=0.5");
         }
 
         function filterProjects(category, btn) {
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            
             const allCards = document.querySelectorAll('.project-card');
             
-            // Fade everything out first
             gsap.to(allCards, {
                 opacity: 0,
-                y: 20,
-                duration: 0.4,
+                y: 15,
+                duration: 0.3,
                 onComplete: () => {
                     allCards.forEach(card => {
                         if (category === 'all' || card.getAttribute('data-category') === category) {
@@ -172,43 +212,41 @@
                             card.classList.add('hidden');
                         }
                     });
-
-                    // One-by-one reveal of the newly filtered items
                     const visibleCards = document.querySelectorAll('.project-card:not(.hidden)');
                     gsap.to(visibleCards, {
                         opacity: 1,
                         y: 0,
-                        duration: 0.8,
-                        stagger: 0.15,
+                        duration: 0.6,
+                        stagger: 0.05,
                         ease: "power2.out"
                     });
-                    
-                    // Refresh ScrollTrigger so positions are recalculated
                     ScrollTrigger.refresh();
                 }
             });
         }
 
         function attachHoverEffects() {
-            document.querySelectorAll('.img-container').forEach(el => {
+            document.querySelectorAll('.project-card').forEach(el => {
                 el.addEventListener('mouseenter', () => {
-                    gsap.to("#cursor-follower", { opacity: 1, scale: 1, duration: 0.3 });
-                    gsap.to("#cursor", { scale: 0, duration: 0.3 });
+                    gsap.to("#cursor-follower", { opacity: 1, scale: 1, duration: 0.2 });
+                    gsap.to("#cursor", { scale: 0, duration: 0.2 });
                 });
                 el.addEventListener('mouseleave', () => {
-                    gsap.to("#cursor-follower", { opacity: 0, scale: 0.5, duration: 0.3 });
-                    gsap.to("#cursor", { scale: 1, duration: 0.3 });
+                    gsap.to("#cursor-follower", { opacity: 0, scale: 0.5, duration: 0.2 });
+                    gsap.to("#cursor", { scale: 1, duration: 0.2 });
                 });
             });
         }
 
-        // Smooth cursor follow
         document.addEventListener('mousemove', (e) => {
             gsap.to("#cursor", { x: e.clientX, y: e.clientY, duration: 0 });
-            gsap.to("#cursor-follower", { x: e.clientX - 40, y: e.clientY - 40, duration: 0.15 });
+            gsap.to("#cursor-follower", { x: e.clientX - 40, y: e.clientY - 40, duration: 0.1 });
         });
 
-        window.onload = () => { initGrid(); };
+        window.onload = () => { 
+            initGrid(); 
+            runEntranceAnimation();
+        };
     </script>
 </body>
 </html>

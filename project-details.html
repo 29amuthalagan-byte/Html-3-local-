@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROJECT DETAIL</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@100;300&display=swap" rel="stylesheet">
+    <style>
+        body { background: #050505; color: white; font-family: 'Inter', sans-serif; margin: 0; }
+        header { padding: 40px 60px; position: fixed; width: 100%; box-sizing: border-box; z-index: 100; }
+        .back-btn { color: #c5a47e; text-decoration: none; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; }
+        
+        .detail-hero { width: 100%; height: 70vh; overflow: hidden; }
+        .detail-hero img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .content { max-width: 800px; margin: -100px auto 100px; background: #050505; padding: 80px; position: relative; z-index: 10; border: 1px solid rgba(255,255,255,0.05); }
+        h1 { font-family: 'Cormorant Garamond', serif; font-size: 60px; color: #c5a47e; margin: 0 0 40px 0; letter-spacing: 5px; }
+        p { font-size: 16px; line-height: 2; color: rgba(255,255,255,0.7); margin-bottom: 40px; font-weight: 200; }
+    </style>
+</head>
+<body>
+    <header><a href="projects.html" class="back-btn">← Back to Archive</a></header>
+    
+    <div class="detail-hero"><img id="heroImg" src=""></div>
+    
+    <div class="content">
+        <h1 id="projName">Project Name</h1>
+        <p>Architecture is an exploration of the boundaries between the built environment and the natural world. This project serves as a cornerstone of our philosophy, emphasizing the use of raw materials to create a sense of permanence within a fleeting landscape. By carefully analyzing the sun’s path, we’ve ensured that light becomes a moving element of the design throughout the day.</p>
+        <p>The interior spaces are carved out with a focus on negative space, allowing for a seamless transition between functional living areas and meditative voids. We utilized locally sourced stone and reclaimed timber to ground the structure in its specific geological context. The result is a home that feels as though it has always existed as part of the terrain.</p>
+        <p>Sustainability was not an afterthought but the primary driver of the structural logic. From passive cooling systems to high-performance thermal envelopes, every technical decision was made to minimize environmental impact while maximizing human comfort. This building stands as a testament to the fact that luxury and ecological responsibility are not mutually exclusive.</p>
+        <p>During the construction phase, our studio worked closely with master craftsmen to ensure that every joint and finish met our exacting standards. The tactile quality of the surfaces invites touch, creating a sensory experience that goes beyond mere visual aesthetics. It is a space designed to be felt as much as it is seen, offering a sanctuary from the digital noise of the modern world.</p>
+        <p>Ultimately, this project is a celebration of the human spirit’s desire for harmony. It reflects the client's unique vision while pushing the boundaries of what modern architecture can achieve. We invite you to explore the nuances of this structure, where every shadow tells a story and every window frames a new perspective on the world outside.</p>
+    </div>
+
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        document.getElementById('heroImg').src = `a${params.get('id')}.webp`;
+        document.getElementById('projName').innerText = params.get('name');
+    </script>
+</body>
+</html>
