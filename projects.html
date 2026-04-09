@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PROJECTS | LASATER</title>
+    <title>PROJECTS | VENZOR ESTATE</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Inter:wght@100;200;400&display=swap" rel="stylesheet">
@@ -22,35 +22,36 @@
         /* Nav & Background */
         .video-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none; }
         video { width: 100%; height: 100%; object-fit: cover; opacity: 0; }
-        header { position: fixed; top: 0; width: 100%; padding: 40px 60px; display: flex; justify-content: space-between; align-items: center; z-index: 2000; opacity: 0; }
+        header { position: fixed; top: 0; width: 100%; padding: clamp(20px, 4vw, 40px) clamp(20px, 5vw, 60px); display: flex; justify-content: space-between; align-items: center; z-index: 2000; opacity: 0; box-sizing: border-box; }
         
         .logo { font-family: 'Cormorant Garamond', serif; font-size: 24px; letter-spacing: 8px; text-transform: uppercase; text-decoration: none; color: white; }
-        .nav-links { display: flex; gap: 40px; list-style: none; }
+        .nav-links { display: flex; gap: clamp(20px, 3vw, 40px); list-style: none; margin: 0; padding: 0; }
         .nav-links a { color: white; text-decoration: none; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; opacity: 0.6; }
 
-        .archive-header { position: relative; z-index: 10; padding: 200px 60px 40px; }
+        .archive-header { position: relative; z-index: 10; padding: clamp(120px, 20vh, 200px) clamp(20px, 5vw, 60px) 40px; }
         .archive-header h1 { 
             font-family: 'Cormorant Garamond', serif; 
-            font-size: 8vw; 
+            font-size: clamp(40px, 8vw, 120px); 
             font-weight: 300; 
-            letter-spacing: 15px; 
+            letter-spacing: clamp(5px, 1.5vw, 15px); 
             margin: 0; 
             text-transform: uppercase;
             visibility: hidden; 
         }
         
-        .filter-bar { position: relative; z-index: 10; padding: 0 60px 80px; display: flex; gap: 40px; opacity: 0; }
+        .filter-bar { position: relative; z-index: 10; padding: 0 clamp(20px, 5vw, 60px) clamp(40px, 8vh, 80px); display: flex; gap: clamp(15px, 3vw, 40px); opacity: 0; flex-wrap: wrap; }
         .filter-btn { 
             background: none; border: none; color: rgba(255,255,255,0.3); font-size: 10px; 
             letter-spacing: 4px; text-transform: uppercase; cursor: pointer; transition: 0.4s; padding-bottom: 5px;
-            border-bottom: 1px solid transparent;
+            border-bottom: 1px solid transparent; white-space: nowrap;
         }
         .filter-btn.active { color: var(--gold); border-bottom: 1px solid var(--gold); }
 
         .project-grid { 
             position: relative; z-index: 10; display: grid; 
-            grid-template-columns: repeat(2, 1fr); gap: 100px 60px; 
-            padding: 0 60px 150px; min-height: 100vh;
+            grid-template-columns: repeat(2, 1fr); gap: clamp(40px, 8vw, 100px) clamp(20px, 5vw, 60px); 
+            padding: 0 clamp(20px, 5vw, 60px) 150px; min-height: 100vh;
+            box-sizing: border-box;
         }
 
         .project-card { position: relative; width: 100%; display: block; opacity: 0; transform: translateY(40px); text-decoration: none; color: inherit; }
@@ -63,11 +64,17 @@
         .img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1); filter: grayscale(20%); }
         .project-card:hover img { transform: scale(1.08); filter: grayscale(0%); }
         
-        .project-meta { margin-top: 25px; display: flex; justify-content: space-between; align-items: flex-end; }
-        .project-meta h2 { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 300; margin: 0; letter-spacing: 2px; }
-        .project-meta span { font-size: 9px; text-transform: uppercase; letter-spacing: 3px; color: var(--gold); }
+        .project-meta { margin-top: 15px; display: flex; justify-content: space-between; align-items: flex-end; }
+        .project-meta h2 { font-family: 'Cormorant Garamond', serif; font-size: clamp(18px, 2vw, 28px); font-weight: 300; margin: 0; letter-spacing: 2px; }
+        .project-meta span { font-size: clamp(7px, 0.8vw, 9px); text-transform: uppercase; letter-spacing: 3px; color: var(--gold); }
 
-        @media (max-width: 900px) { .project-grid { grid-template-columns: 1fr; } body { cursor: auto; } #cursor, #cursor-follower { display: none; } }
+        @media (max-width: 900px) { 
+            .project-grid { grid-template-columns: 1fr; } 
+            body { cursor: auto; } 
+            #cursor, #cursor-follower { display: none; }
+            .nav-links { display: none; } /* Standard for mobile luxury sites */
+            header { justify-content: center; }
+        }
     </style>
 </head>
 <body>
@@ -82,7 +89,7 @@
     </div>
 
     <header id="mainNav">
-        <a href="index.html" class="logo">LASATER.</a>
+        <a href="index.html" class="logo">VENZOR.</a>
         <nav><ul class="nav-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="projects.html" style="color:var(--gold); opacity:1;">Projects</a></li>
@@ -132,10 +139,7 @@
         const grid = document.getElementById('grid');
         const video = document.getElementById('bgVideo');
 
-        // Ensure video keeps playing if it's accidentally paused by the system
-        video.addEventListener('pause', () => {
-            video.play();
-        });
+        video.addEventListener('pause', () => { video.play(); });
 
         function initGrid() {
             projectData.forEach((proj) => {
@@ -173,8 +177,7 @@
                 title.appendChild(span);
             });
 
-            // Force play and fade in
-            video.play().catch(e => console.log("Auto-play prevented, waiting for interaction"));
+            video.play().catch(e => console.log("Auto-play prevented"));
 
             tl.to("#bgVideo", { opacity: 0.15, duration: 1.2, ease: "power2.out" })
               .to("#mainNav", { opacity: 1, duration: 0.6 }, "-=0.6")

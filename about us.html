@@ -3,29 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ABOUT US | LASATER</title>
+    <title>ABOUT US | VENZOR ESTATE</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@100;200;300;400&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #c5a47e; --white: #ffffff; --bg: #050505; --glass: rgba(0, 0, 0, 0.8); }
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: var(--bg); color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        :root { --gold: #c5a47e; --white: #ffffff; --bg: #050505; --glass: rgba(0, 0, 0, 0.85); }
+        
+        /* Smooth scrolling and prevent horizontal shifting */
+        body, html { 
+            margin: 0; padding: 0; width: 100%; height: 100%; 
+            background: var(--bg); color: white; 
+            font-family: 'Inter', sans-serif; 
+            overflow-x: hidden;
+        }
 
         /* Immersive Background */
         .main-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&q=80&w=2500'); 
             background-size: cover; background-position: center;
-            z-index: 1; filter: brightness(0.35);
+            z-index: 1; filter: brightness(0.3);
         }
 
         /* Navigation */
         header {
-            position: fixed; top: 0; width: 100%; padding: 40px 60px;
-            display: flex; justify-content: space-between; align-items: center;
+            position: fixed; top: 0; width: 100%; padding: clamp(20px, 4vw, 40px) clamp(20px, 5vw, 60px);
+            display: flex; justify-content: flex-end; align-items: center;
             z-index: 2000; box-sizing: border-box;
         }
-        .logo { font-family: 'Cormorant Garamond', serif; font-size: 24px; letter-spacing: 8px; text-transform: uppercase; text-decoration: none; color: white; }
-        .nav-links { display: flex; gap: 40px; list-style: none; margin: 0; padding: 0; }
+        .nav-links { display: flex; gap: clamp(20px, 3vw, 40px); list-style: none; margin: 0; padding: 0; }
         .nav-links a { color: white; text-decoration: none; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; opacity: 0.6; transition: 0.4s; }
         .nav-links a:hover, .active { opacity: 1; color: var(--gold); }
 
@@ -33,63 +39,64 @@
         .about-wrapper {
             position: relative; z-index: 10;
             display: flex; align-items: center; justify-content: center;
-            min-height: 100vh; padding: 140px 20px; box-sizing: border-box;
+            min-height: 100vh; padding: 120px 20px; box-sizing: border-box;
         }
 
         .glass-manifesto {
-            width: 90%; max-width: 950px;
+            width: 95%; max-width: 900px;
             background: var(--glass);
             backdrop-filter: blur(40px);
             -webkit-backdrop-filter: blur(40px);
             border: 1px solid rgba(255,255,255,0.08);
-            padding: 100px 80px; text-align: center;
+            padding: clamp(40px, 8vw, 100px) clamp(20px, 6vw, 80px); 
+            text-align: center;
             opacity: 0; transform: translateY(40px);
+            box-sizing: border-box;
         }
 
         .tagline {
-            font-size: 9px; text-transform: uppercase; letter-spacing: 12px;
-            color: var(--gold); margin-bottom: 40px; display: block;
+            font-size: clamp(8px, 1vw, 10px); text-transform: uppercase; letter-spacing: clamp(5px, 1vw, 12px);
+            color: var(--gold); margin-bottom: clamp(20px, 4vw, 40px); display: block;
         }
 
         .glass-manifesto h1 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(32px, 5vw, 60px); font-weight: 300; margin: 0 0 40px 0;
-            letter-spacing: 10px; color: var(--white); text-transform: uppercase;
+            font-size: clamp(28px, 5vw, 60px); font-weight: 300; margin: 0 0 clamp(20px, 4vw, 40px) 0;
+            letter-spacing: clamp(5px, 1.5vw, 10px); color: var(--white); text-transform: uppercase;
         }
 
-        .content-body {
-            max-width: 750px; margin: 0 auto;
-        }
+        .content-body { max-width: 750px; margin: 0 auto; }
 
         .content-p {
-            font-size: 15px; line-height: 2.4; font-weight: 200;
-            color: rgba(255,255,255,0.7); margin-bottom: 40px;
-            letter-spacing: 0.8px; text-align: justify;
+            font-size: clamp(13px, 1.2vw, 15px); line-height: 2.2; font-weight: 200;
+            color: rgba(255,255,255,0.7); margin-bottom: clamp(20px, 3vw, 40px);
+            letter-spacing: 0.5px; text-align: justify;
             text-justify: inter-word;
         }
 
         .signature-block {
-            margin-top: 60px;
+            margin-top: clamp(30px, 5vw, 60px);
             border-top: 1px solid rgba(255,255,255,0.1);
-            padding-top: 40px;
+            padding-top: clamp(20px, 4vw, 40px);
         }
 
         .signature {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 28px; font-style: italic; color: var(--gold);
+            font-size: clamp(22px, 3vw, 28px); font-style: italic; color: var(--gold);
             margin-bottom: 5px;
         }
 
         .title-sub {
-            font-size: 9px; text-transform: uppercase; letter-spacing: 4px;
+            font-size: 8px; text-transform: uppercase; letter-spacing: 4px;
             color: rgba(255,255,255,0.4);
         }
 
-        /* Mobile Optimization */
+        /* Mobile specific scroll behavior */
         @media (max-width: 768px) {
-            .glass-manifesto { padding: 60px 30px; }
-            .content-p { text-align: center; font-size: 14px; }
-            header { padding: 20px 30px; }
+            body, html { overflow-y: auto; }
+            header { justify-content: center; } /* Centers nav on small phones */
+            .content-p { text-align: center; line-height: 1.8; }
+            .glass-manifesto { margin-top: 20px; }
         }
     </style>
 </head>
@@ -98,7 +105,6 @@
     <div class="main-bg"></div>
 
     <header>
-        <a href="index.html" class="logo">LASATER.</a>
         <nav>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
@@ -127,8 +133,8 @@
             </div>
 
             <div class="signature-block">
-                <div class="signature">Anders Lasater, AIA</div>
-                <div class="title-sub">Principal Architect & Founder</div>
+                <div class="signature">Venzor Estate</div>
+                <div class="title-sub">Principal Design Studio</div>
             </div>
         </div>
     </main>

@@ -3,57 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SERVICES | LASATER</title>
+    <title>SERVICES | VENZOR ESTATE</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@200;300;400&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #c5a47e; --white: #ffffff; --bg: #0d0d0d; --glass: rgba(0, 0, 0, 0.7); }
-        body, html { margin: 0; padding: 0; width: 100%; height: 100%; background: var(--bg); color: white; font-family: 'Inter', sans-serif; overflow: hidden; }
+        :root { --gold: #c5a47e; --white: #ffffff; --bg: #0d0d0d; --glass: rgba(0, 0, 0, 0.75); }
+        
+        /* General resets and scrolling control */
+        body, html { 
+            margin: 0; padding: 0; width: 100%; height: 100%; 
+            background: var(--bg); color: white; 
+            font-family: 'Inter', sans-serif; 
+            overflow-x: hidden;
+        }
 
         .bg-image {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=2000'); 
             background-size: cover; background-position: center;
-            z-index: 1; filter: brightness(0.3);
+            z-index: 1; filter: brightness(0.25);
         }
 
+        /* Responsive Navigation */
         header {
-            position: fixed; top: 0; width: 100%; padding: 40px 60px;
+            position: fixed; top: 0; width: 100%; padding: clamp(20px, 4vw, 40px) clamp(20px, 5vw, 60px);
             display: flex; justify-content: space-between; align-items: center;
             z-index: 2000; box-sizing: border-box;
         }
         .logo { font-family: 'Cormorant Garamond', serif; font-size: 24px; letter-spacing: 8px; text-transform: uppercase; text-decoration: none; color: white; }
-        .nav-links { display: flex; gap: 40px; list-style: none; margin: 0; padding: 0; }
+        .nav-links { display: flex; gap: clamp(20px, 3vw, 40px); list-style: none; margin: 0; padding: 0; }
         .nav-links a { color: white; text-decoration: none; font-size: 10px; letter-spacing: 3px; text-transform: uppercase; opacity: 0.6; transition: 0.4s; }
         .nav-links a:hover, .active { opacity: 1; color: var(--gold); }
 
-        /* The Horizontal Container */
+        /* The Main Container - Becomes scrollable on mobile */
         .services-wrapper {
             position: relative; z-index: 10;
             display: flex; align-items: center; justify-content: center;
-            height: 100vh; width: 100%; padding: 0 5%; box-sizing: border-box;
+            min-height: 100vh; width: 100%; 
+            padding: 100px clamp(15px, 5vw, 60px); 
+            box-sizing: border-box;
         }
 
         .services-glass-box {
             display: flex;
             background: var(--glass);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid rgba(255,255,255,0.08);
             width: 100%;
             max-width: 1400px;
-            padding: 80px 40px;
+            padding: clamp(40px, 6vw, 80px) clamp(20px, 3vw, 40px);
             opacity: 0; transform: translateY(40px);
+            box-sizing: border-box;
         }
 
         .service-column {
             flex: 1;
-            padding: 0 40px;
+            padding: 0 clamp(20px, 3vw, 50px);
             text-align: center;
             position: relative;
         }
 
-        /* Vertical dividers between columns */
+        /* Vertical dividers only for desktop */
         .service-column:not(:last-child)::after {
             content: '';
             position: absolute; right: 0; top: 10%; height: 80%;
@@ -61,29 +72,34 @@
         }
 
         .service-column h1 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 12px; letter-spacing: 5px; text-transform: uppercase;
-            color: var(--gold); margin-bottom: 40px;
+            font-family: 'Inter', sans-serif;
+            font-size: 9px; letter-spacing: 6px; text-transform: uppercase;
+            color: var(--gold); margin-bottom: 30px; font-weight: 300;
         }
 
         .service-column h3 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 28px; margin-bottom: 25px;
-            letter-spacing: 2px; font-weight: 400;
+            font-size: clamp(22px, 2.5vw, 32px); margin-bottom: 25px;
+            letter-spacing: 1px; font-weight: 300;
         }
 
         .service-column p {
-            font-size: 14px; line-height: 1.8; font-weight: 200;
+            font-size: clamp(13px, 1.1vw, 15px); line-height: 1.8; font-weight: 200;
             color: rgba(255,255,255,0.6);
+            text-align: center;
         }
 
-        .line-accent { width: 40px; height: 1px; background: var(--gold); margin: 0 auto 25px auto; }
+        .line-accent { width: 30px; height: 1px; background: var(--gold); margin: 0 auto 25px auto; opacity: 0.6; }
 
+        /* Mobile Adjustments - Stack columns vertically */
         @media (max-width: 1000px) {
-            .services-glass-box { flex-direction: column; overflow-y: auto; height: 80vh; padding: 40px 20px; }
-            .service-column { padding: 40px 0; }
-            .service-column:not(:last-child)::after { display: none; }
             body { overflow-y: auto; }
+            .services-wrapper { align-items: flex-start; padding-top: 120px; }
+            .services-glass-box { flex-direction: column; height: auto; padding: 40px 20px; }
+            .service-column { padding: 40px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+            .service-column:last-child { border-bottom: none; }
+            .service-column:not(:last-child)::after { display: none; }
+            .nav-links { display: none; } /* Standard for mobile luxury UX */
         }
     </style>
 </head>
@@ -92,7 +108,7 @@
     <div class="bg-image"></div>
 
     <header>
-        <a href="index.html" class="logo">LASATER.</a>
+        <a href="index.html" class="logo">VENZOR.</a>
         <nav>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
@@ -110,21 +126,21 @@
                 <h1>Service 01</h1>
                 <div class="line-accent"></div>
                 <h3>Architectural Design</h3>
-                <p>Our approach to architectural design begins with a deep understanding of the landscape and the client's unique narrative. We create bespoke residential and commercial structures that prioritize natural light, structural integrity, and a seamless connection between interior and exterior spaces. Every line drawn is a step toward a timeless sanctuary.</p>
+                <p>Our approach to architectural design begins with a deep understanding of the landscape and the client's unique narrative. We create bespoke residential structures that prioritize natural light, structural integrity, and a seamless connection between interior and exterior spaces.</p>
             </div>
 
             <div class="service-column">
                 <h1>Service 02</h1>
                 <div class="line-accent"></div>
                 <h3>Interior Curation</h3>
-                <p>We believe that a building's soul is defined by its internal atmosphere. Our interior curation service goes beyond mere decoration, focusing on the tactile relationship between materials, light, and volume. From hand-selected textures to custom spatial planning, we ensure that every corner of your home feels intentional, luxurious, and deeply personal.</p>
+                <p>We believe that a building's soul is defined by its internal atmosphere. Our curation service goes beyond mere decoration, focusing on the tactile relationship between materials, light, and volume. We ensure every corner feels intentional, luxurious, and personal.</p>
             </div>
 
             <div class="service-column">
                 <h1>Service 03</h1>
                 <div class="line-accent"></div>
                 <h3>Master Planning</h3>
-                <p>Success in large-scale development requires a vision that balances human needs with environmental stewardship. Our master planning services provide comprehensive site analysis and strategic design for sustainable growth. We transform complex challenges into organized, aesthetic environments that respect the local heritage while embracing future innovations.</p>
+                <p>Success in large-scale development requires a vision that balances human needs with environmental stewardship. Our master planning services provide comprehensive site analysis and strategic design for sustainable growth and long-term legacy.</p>
             </div>
 
         </div>
@@ -135,7 +151,7 @@
             gsap.to("#box", {
                 opacity: 1,
                 y: 0,
-                duration: 1.5,
+                duration: 1.8,
                 ease: "expo.out"
             });
         }
